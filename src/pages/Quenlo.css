@@ -123,7 +123,8 @@ section { position: relative; }
 .graph-svg path { filter: drop-shadow(0 0 6px rgba(87,231,198,.35)); }
 .g-node { fill: #0f9488; stroke: #fffefa; stroke-width: 3; }
 .graph-core { position: absolute; left: calc(50% - 76px); top: calc(50% - 76px); width: 152px; height: 152px; border-radius: 999px;
-  background: var(--bg-2); border: 1px solid var(--line); box-shadow: var(--shadow-lg); display: grid; place-items: center; transform-origin: center; }
+  background: var(--bg-2); border: 1px solid var(--line); box-shadow: var(--shadow-lg); display: grid; place-items: center; place-content: center; transform-origin: center; }
+.graph-core b { max-width: 120px; text-align: center; line-height: 1.1; }
 .graph-core::before { content: ""; position: absolute; inset: -10px; border-radius: 999px; border: 1px dashed rgba(15,148,136,.3); animation: spin 24s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .graph-core img { width: 56px; height: 56px; } .graph-core b { margin-top: 6px; font-family: var(--display); font-size: 13px; color: var(--teal-deep); }

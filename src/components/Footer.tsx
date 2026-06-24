@@ -15,7 +15,7 @@ const cols = [
     items: [
       { label: 'Infinite-State', href: 'https://infist.ai' },
       { label: 'Book a demo', href: '/#book-demo' },
-      { label: 'Contact', href: 'mailto:team@infist.ai' },
+      { label: 'Contact', href: 'mailto:Infistteam@infist.ai' },
     ],
   },
 ]

@@ -319,8 +319,10 @@ export default function Quenlo() {
           <div className="marquee-row">
             {[...Array(2)].map((_, k) => (
               <div className="marquee-track" key={k}>
-                {['Slack', 'Google Meet', 'Zoom', 'Linear', 'Notion', 'HubSpot', 'Gmail', 'Teams'].map((n) => (
-                  <span key={n + k}><i className="m-dot" />{n}</span>
+                {['Slack', 'Google Meet', 'Zoom', 'Linear', 'Notion', 'HubSpot', 'Gmail', 'Teams',
+                  'Slack', 'Google Meet', 'Zoom', 'Linear', 'Notion', 'HubSpot', 'Gmail', 'Teams',
+                  'Slack', 'Google Meet', 'Zoom', 'Linear', 'Notion', 'HubSpot', 'Gmail', 'Teams'].map((n, idx) => (
+                  <span key={n + k + idx} aria-hidden={idx >= 8}><i className="m-dot" />{n}</span>
                 ))}
               </div>
             ))}

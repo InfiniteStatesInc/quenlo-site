@@ -126,7 +126,7 @@ export default function BookDemoPanel() {
           placeholder="Founder syncs, customer calls, product reviews, weekly planning..."
         />
       </label>
-      {error ? <p className="demo-form-error">{error} You can also reach us at team@infist.ai.</p> : null}
+      {error ? <p className="demo-form-error">{error} You can also reach us at Infistteam@infist.ai.</p> : null}
       <button className="btn btn-primary demo-submit" type="submit" disabled={submitting}>
         {submitting ? 'Sending...' : 'Book demo'}
       </button>
