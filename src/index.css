@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
+
+:root {
+  /* warm cream surfaces (granola-inspired) */
+  --bg: #f6f4ec;
+  --bg-2: #fffefa;
+  --bg-3: #efece1;
+  --ink-bg: #0c1614;          /* dark band */
+  --ink-bg-2: #0f1c1a;
+
+  /* ink + text */
+  --ink: #15211e;
+  --body: #56655f;
+  --muted: #8a978f;
+  --on-dark: #eafff9;
+  --on-dark-body: #9fb6b0;
+
+  /* brand */
+  --teal: #0f9488;
+  --teal-deep: #0f766e;
+  --teal-press: #0c6a60;
+  --mint: #57e7c6;
+  --mint-soft: #d6f7ee;
+  --blue: #5b8cff;
+  --citron: #d6e84a;
+
+  /* lines + shadow */
+  --line: rgba(20, 33, 30, 0.10);
+  --line-soft: rgba(20, 33, 30, 0.06);
+  --shadow-sm: 0 1px 0 rgba(20, 33, 30, 0.04), 0 6px 18px rgba(20, 33, 30, 0.05);
+  --shadow-md: 0 18px 50px rgba(20, 33, 30, 0.10);
+  --shadow-lg: 0 34px 90px rgba(13, 24, 22, 0.18);
+
+  --r-sm: 10px;
+  --r: 16px;
+  --r-lg: 22px;
+  --r-xl: 30px;
+
+  --display: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 450;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; text-decoration: none; }
+img, svg, video { display: block; max-width: 100%; }
+
+::selection { background: var(--mint); color: #07211c; }
+
+.wrap { width: calc(100% - 44px); max-width: 1160px; margin: 0 auto; }
+.wrap-narrow { max-width: 940px; }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--sans); font-size: 15px; font-weight: 600; line-height: 1;
+  letter-spacing: -0.01em; cursor: pointer; white-space: nowrap;
+  border: 1px solid transparent; border-radius: var(--r-sm);
+  height: 46px; padding: 0 20px;
+  transition: transform .16s ease, background .16s ease, border-color .16s ease, box-shadow .16s ease, color .16s ease;
+}
+.btn svg { width: 17px; height: 17px; }
+.btn-primary { background: var(--ink); color: #f6f4ec; }
+.btn-primary:hover { background: #1d302c; transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+.btn-teal { background: var(--teal); color: #fff; box-shadow: inset 0 -2px 0 rgba(0,0,0,.14); }
+.btn-teal:hover { background: var(--teal-deep); transform: translateY(-1px); }
+.btn-ghost { background: rgba(20,33,30,.03); color: var(--ink); border-color: var(--line); }
+.btn-ghost:hover { background: rgba(20,33,30,.06); border-color: rgba(20,33,30,.18); }
+.btn-lg { height: 54px; padding: 0 26px; font-size: 16px; }
+.btn-block { width: 100%; }
+
+/* on dark surfaces */
+.on-dark .btn-ghost { background: rgba(255,255,255,.04); color: var(--on-dark); border-color: rgba(133,246,230,.22); }
+.on-dark .btn-ghost:hover { border-color: rgba(87,231,198,.6); background: rgba(87,231,198,.08); }
+
+/* ---------- shared bits ---------- */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--mono); font-size: 11.5px; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--teal-deep);
+  background: var(--mint-soft);
+  border: 1px solid rgba(15,148,136,.18);
+  padding: 6px 12px; border-radius: 999px;
+}
+.eyebrow .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--teal); }
+.on-dark .eyebrow { color: #8fffe2; background: rgba(87,231,198,.10); border-color: rgba(87,231,198,.24); }
+
+.kicker { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--teal-deep); }
+
+h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.02em; color: var(--ink); }
+.on-dark h1, .on-dark h2, .on-dark h3 { color: var(--on-dark); }
+
+/* ---------- nav ---------- */
+.q-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(246, 244, 236, 0);
+  border-bottom: 1px solid transparent;
+  transition: background .25s ease, border-color .25s ease, backdrop-filter .25s ease;
+}
+.q-nav.is-scrolled {
+  background: rgba(247, 245, 238, 0.82);
+  backdrop-filter: saturate(140%) blur(14px);
+  border-bottom-color: var(--line-soft);
+}
+.q-nav-inner { display: flex; align-items: center; justify-content: space-between; min-height: 66px; gap: 18px; }
+.q-brand { display: inline-flex; align-items: center; gap: 9px; font-family: var(--display);
+  font-size: 19px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
+.q-nav-links { display: flex; align-items: center; gap: 4px; }
+.q-nav-links a { font-size: 14.5px; font-weight: 500; color: var(--body); padding: 8px 12px; border-radius: 8px; transition: color .15s, background .15s; }
+.q-nav-links a:hover { color: var(--ink); background: rgba(20,33,30,.04); }
+.q-nav-cta { height: 40px; padding: 0 16px; font-size: 14px; }
+
+/* ---------- footer ---------- */
+.q-footer { background: var(--ink-bg); color: var(--on-dark-body); padding: 64px 0 30px; }
+.q-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(133,246,230,.1); }
+.q-brand-dark { color: var(--on-dark); }
+.q-footer-brand p { margin-top: 14px; max-width: 320px; font-size: 14px; line-height: 1.65; color: var(--on-dark-body); }
+.q-footer-col h4 { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: .04em;
+  text-transform: uppercase; color: #6f857f; margin-bottom: 14px; }
+.q-footer-col a { display: block; font-size: 14px; color: #b6cbc5; padding: 5px 0; transition: color .15s; }
+.q-footer-col a:hover { color: var(--mint); }
+.q-footer-base { display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  flex-wrap: wrap; padding-top: 22px; font-size: 12.5px; color: #6f857f; }

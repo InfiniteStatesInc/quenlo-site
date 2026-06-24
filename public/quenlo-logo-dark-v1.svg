@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Quenlo logo">
+  <defs>
+    <linearGradient id="q-stroke" x1="20" y1="18" x2="100" y2="102" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#EFFFF9"/>
+      <stop offset="0.5" stop-color="#56F0D0"/>
+      <stop offset="1" stop-color="#8DB5FF"/>
+    </linearGradient>
+    <linearGradient id="q-tail" x1="66" y1="72" x2="96" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#56F0D0"/>
+      <stop offset="1" stop-color="#8DB5FF"/>
+    </linearGradient>
+    <filter id="q-soft-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.34 0 0 0 0 0.94 0 0 0 0 0.82 0 0 0 0.34 0"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="120" height="120" rx="26" fill="#030A0E"/>
+  <path d="M61 24c-21 0-37 15.8-37 36.3 0 20.6 16 36.7 37 36.7 9.6 0 18-3.4 24.4-9" fill="none" stroke="url(#q-stroke)" stroke-width="8" stroke-linecap="round" filter="url(#q-soft-glow)"/>
+  <path d="M78 78l18 18" fill="none" stroke="url(#q-tail)" stroke-width="8" stroke-linecap="round" filter="url(#q-soft-glow)"/>
+  <path d="M40 60.5c8.5-6.9 22-7.3 34.4-1.1" fill="none" stroke="#EFFFF9" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+  <circle cx="37" cy="63" r="3" fill="#56F0D0"/>
+  <circle cx="77" cy="61" r="3" fill="#8DB5FF"/>
+</svg>
