@@ -88,16 +88,13 @@ img, svg, video { display: block; max-width: 100%; }
 
 /* ---------- shared bits ---------- */
 .eyebrow {
-  display: inline-flex; align-items: center; gap: 7px;
-  font-family: var(--mono); font-size: 11.5px; font-weight: 600;
-  letter-spacing: 0.04em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 12px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--teal-deep);
-  background: var(--mint-soft);
-  border: 1px solid rgba(15,148,136,.18);
-  padding: 6px 12px; border-radius: 999px;
 }
 .eyebrow .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--teal); }
-.on-dark .eyebrow { color: #8fffe2; background: rgba(87,231,198,.10); border-color: rgba(87,231,198,.24); }
+.on-dark .eyebrow { color: #8fffe2; }
 
 .kicker { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--teal-deep); }
 

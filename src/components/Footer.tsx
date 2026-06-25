@@ -6,7 +6,6 @@ const cols = [
     items: [
       { label: 'How it works', href: '/#product' },
       { label: 'Forward-deployed', href: '/#fde' },
-      { label: 'Use cases', href: '/#usecases' },
       { label: 'Watch the film', href: '/#film' },
     ],
   },

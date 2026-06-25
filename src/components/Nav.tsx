@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 const links = [
   { href: '/#product', label: 'How it works' },
   { href: '/#fde', label: 'Forward-deployed' },
-  { href: '/#usecases', label: 'Use cases' },
   { href: 'https://infist.ai', label: 'Company' },
 ]
 

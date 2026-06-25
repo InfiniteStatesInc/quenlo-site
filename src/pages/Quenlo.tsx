@@ -246,7 +246,7 @@ function Bento() {
           </Reveal>
           <Reveal className="b-tile b-stack" delay={0.18} y={30}>
             <span className="b-tag">Alias & jargon</span>
-            <div className="b-alias"><code>小强 / ZQ</code><i>→</i><code>@zhangqiang</code></div>
+            <div className="b-alias"><code>"Bobby"</code><i>→</i><code>@robert</code></div>
             <div className="b-alias"><code>DPA</code><i>→</i><code>data-processing</code></div>
           </Reveal>
         </div>
