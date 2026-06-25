@@ -154,11 +154,19 @@ const NODES = [
   { x: 880, y: 400, label: 'Risk', cls: 'n-risk' },
   { x: 500, y: 500, label: 'Follow-up', cls: 'n-follow' },
 ]
+const MEMORIES = [
+  { kind: 'Decision', cls: 'n-dec', title: 'Ship the UI after the retention review', meta: 'Founder sync · 00:12 · @theo' },
+  { kind: 'Owner', cls: 'n-own', title: 'Pricing v2 tiers are locked', meta: 'Owned by @nora' },
+  { kind: 'Customer signal', cls: 'n-cust', title: 'Two churn risks flagged this week', meta: 'Surfaced from support' },
+  { kind: 'Risk', cls: 'n-risk', title: 'Legal review is the launch gate', meta: 'Blocks pricing v2' },
+  { kind: 'Follow-up', cls: 'n-follow', title: 'Customer note due Friday', meta: 'Routed to @maya' },
+]
 function MemoryGraph() {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'center 0.4'] })
   const draw = useTransform(scrollYProgress, [0, 1], [0, 1])
   const coreScale = useTransform(scrollYProgress, [0, 0.5], [0.4, 1])
+  const [open, setOpen] = useState(false)
   return (
     <section className="graph" ref={ref}>
       <div className="wrap graph-inner">
@@ -166,41 +174,48 @@ function MemoryGraph() {
           <span className="kicker">// one memory, many threads</span>
           <h2>Every decision stays connected<br />to where it came from.</h2>
         </Reveal>
-        <div className="graph-stage">
-          <svg viewBox="0 0 1000 560" className="graph-svg" aria-hidden>
+        <div className={`graph-stage ${open ? 'is-board' : ''}`}>
+          <div className="graph-map">
+            <svg viewBox="0 0 1000 560" className="graph-svg" aria-hidden>
+              <defs>
+                <linearGradient id="gline" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="560">
+                  <stop offset="0" stopColor="#0f9488" /><stop offset="1" stopColor="#57e7c6" />
+                </linearGradient>
+              </defs>
+              {NODES.map((n, i) => (
+                <motion.path key={i} d={`M500 280 L${n.x} ${n.y}`} stroke="url(#gline)" strokeWidth="2.4" strokeLinecap="round" fill="none" style={{ pathLength: draw }} />
+              ))}
+              {NODES.map((n, i) => (
+                <motion.circle key={i} cx={n.x} cy={n.y} r="7" className="g-node"
+                  initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }}
+                  transition={{ delay: 0.2 + i * 0.08, type: 'spring', stiffness: 200 }} style={{ transformOrigin: `${n.x}px ${n.y}px` }} />
+              ))}
+            </svg>
             {NODES.map((n, i) => (
-              <motion.path
-                key={i}
-                d={`M500 280 L${n.x} ${n.y}`}
-                stroke="url(#gline)" strokeWidth="2" fill="none"
-                style={{ pathLength: draw }}
-              />
+              <motion.span key={i} className={`g-label ${n.cls}`}
+                style={{ left: `${(n.x / 1000) * 100}%`, top: `${(n.y / 560) * 100}%` }}
+                initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
+                transition={{ delay: 0.35 + i * 0.08 }}>
+                {n.label}
+              </motion.span>
             ))}
-            <defs>
-              <linearGradient id="gline" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stopColor="#0f9488" /><stop offset="1" stopColor="#57e7c6" />
-              </linearGradient>
-            </defs>
-            {NODES.map((n, i) => (
-              <motion.circle key={i} cx={n.x} cy={n.y} r="7" className="g-node"
-                initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }}
-                transition={{ delay: 0.2 + i * 0.08, type: 'spring', stiffness: 200 }} style={{ transformOrigin: `${n.x}px ${n.y}px` }} />
+          </div>
+          <motion.button type="button" className="graph-core" style={{ scale: open ? 1 : coreScale }} onClick={() => setOpen((o) => !o)}>
+            <img src="/quenlo-logo-on-light.svg" alt="Quenlo" />
+            <span className="core-hint">click to explore</span>
+          </motion.button>
+          <div className="graph-board">
+            <div className="gb-head">
+              <span className="kicker">// searchable org memory</span>
+              <button type="button" className="gb-back" onClick={() => setOpen(false)}>← back to map</button>
+            </div>
+            {MEMORIES.map((m) => (
+              <div className="gb-row" key={m.title}>
+                <span className={`gb-kind ${m.cls}`}>{m.kind}</span>
+                <div className="gb-body"><b>{m.title}</b><i>{m.meta}</i></div>
+              </div>
             ))}
-          </svg>
-          {/* central core */}
-          <motion.div className="graph-core" style={{ scale: coreScale }}>
-            <img src="/quenlo-logo-on-light.svg" alt="" />
-            <b>Org memory</b>
-          </motion.div>
-          {/* node labels */}
-          {NODES.map((n, i) => (
-            <motion.span key={i} className={`g-label ${n.cls}`}
-              style={{ left: `${(n.x / 1000) * 100}%`, top: `${(n.y / 560) * 100}%` }}
-              initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
-              transition={{ delay: 0.35 + i * 0.08 }}>
-              {n.label}
-            </motion.span>
-          ))}
+          </div>
         </div>
       </div>
     </section>
