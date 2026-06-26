@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import BookDemoPanel from '../components/BookDemoPanel'
 import MemoryExplorer from '../components/MemoryExplorer'
+import { inPageNav } from '../lib/scroll'
 import './Quenlo.css'
 
 /* ---------------- reveal-on-scroll ---------------- */
@@ -36,7 +37,7 @@ const FDE_STEPS = [
 ]
 function Fde() {
   return (
-    <section className="fde-sec" id="fde">
+    <section className="fde-sec" id="approach">
       <div className="wrap">
         <Reveal className="sec-head-c">
           <span className="kicker">// forward-deployed</span>
@@ -75,7 +76,7 @@ function ScrollStory() {
   const fillH = useTransform(scrollYProgress, [0, 1], ['4%', '100%'])
   const cls = (i: number) => (i === active ? 'is-active' : i < active ? 'is-prev' : '')
   return (
-    <section className="ss-wrap" id="product" ref={ref}>
+    <section className="ss-wrap" id="how-it-works" ref={ref}>
       <div className="ss-sticky">
         <div className="wrap ss-inner">
           <div className="ss-left">
@@ -156,8 +157,8 @@ export default function Quenlo() {
             </Reveal>
             <Reveal delay={0.16} y={14}>
               <div className="hero-cta">
-                <a className="btn btn-teal btn-lg" href="#book-demo">Book a demo</a>
-                <a className="btn btn-ghost btn-lg" href="#film"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>Watch the film</a>
+                <a className="btn btn-teal btn-lg" href="#book-demo" onClick={(e) => inPageNav(e, '#book-demo')}>Book a demo</a>
+                <a className="btn btn-ghost btn-lg" href="#film" onClick={(e) => inPageNav(e, '#film')}><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>Watch the film</a>
               </div>
             </Reveal>
           </motion.div>

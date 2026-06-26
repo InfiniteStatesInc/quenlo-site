@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
+import { inPageNav } from '../lib/scroll'
 
 const cols = [
   {
     title: 'Product',
     items: [
-      { label: 'How it works', href: '/#product' },
-      { label: 'Forward-deployed', href: '/#fde' },
+      { label: 'How it works', href: '/#how-it-works' },
+      { label: 'Forward-deployed', href: '/#approach' },
       { label: 'Watch the film', href: '/#film' },
     ],
   },
@@ -34,7 +35,7 @@ export default function Footer() {
           <nav key={c.title} className="q-footer-col">
             <h4>{c.title}</h4>
             {c.items.map((it) => (
-              <a key={it.label} href={it.href}>{it.label}</a>
+              <a key={it.label} href={it.href} onClick={(e) => inPageNav(e, it.href)}>{it.label}</a>
             ))}
           </nav>
         ))}

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { inPageNav } from '../lib/scroll'
 
 const links = [
-  { href: '/#product', label: 'How it works' },
-  { href: '/#fde', label: 'Forward-deployed' },
+  { href: '/#how-it-works', label: 'How it works' },
+  { href: '/#approach', label: 'Forward-deployed' },
   { href: 'https://infist.ai', label: 'Company' },
 ]
 
@@ -25,10 +26,10 @@ export default function Nav() {
         </Link>
         <div className="q-nav-links">
           {links.map(({ href, label }) => (
-            <a key={href} href={href}>{label}</a>
+            <a key={href} href={href} onClick={(e) => inPageNav(e, href)}>{label}</a>
           ))}
         </div>
-        <a href="/#book-demo" className="btn btn-teal q-nav-cta">Book a demo</a>
+        <a href="/#book-demo" className="btn btn-teal q-nav-cta" onClick={(e) => inPageNav(e, '/#book-demo')}>Book a demo</a>
       </div>
     </nav>
   )
