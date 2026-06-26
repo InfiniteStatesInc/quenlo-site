@@ -1,73 +1,36 @@
-# React + TypeScript + Vite
+# Quenlo — Marketing Site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The marketing website for **Quenlo** (quenlo.ai) — the organizational memory system for teams that live in Google Meet + Slack. Built by Infinite-State.
 
-Currently, two official plugins are available:
+Live: **https://quenlo.ai**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
+- Vite + React + TypeScript
+- framer-motion (scroll story / animations)
+- Deployed on Vercel (aliased to quenlo.ai)
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Develop
+```bash
+npm install
+npm run dev      # local dev
+npm run build    # production build -> dist/
+npm run preview  # serve the build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Structure
+- `src/` — app source (pages, components, styles)
+- `public/` — static assets shipped as-is (logos, hero demo video, mockups)
+- `api/book-demo.js` — Vercel serverless function that writes "Book a demo" form submissions to a Feishu Bitable
+- `brand-assets/` — brand kit: logo lockups, app icons, social banners, and `品牌规范.md` (brand spec)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Brand
+- Logo: the gradient magnifying-glass **Q** (`brand-assets/logo/quenlo-logo-on-light.svg` / `-on-dark.svg`)
+- Fonts: **Space Grotesk** (headings), **Sora** (brand wordmark), **Inter** (body)
+- Palette and full spec in `brand-assets/品牌规范.md`
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Environment variables (for `api/book-demo`)
+Set these in Vercel (never commit secrets):
+- `FEISHU_APP_ID`
+- `FEISHU_APP_SECRET`
+- `FEISHU_BITABLE_APP_TOKEN`
+- `FEISHU_BITABLE_TABLE_ID`

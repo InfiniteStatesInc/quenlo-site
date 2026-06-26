@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 384" width="1920" height="384" role="img" aria-label="Quenlo Reddit community banner">
+  <!-- Background -->
+  <rect width="1920" height="384" fill="#050C11"/>
+  <linearGradient id="bggrad" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#0d1816"/>
+    <stop offset="50%" stop-color="#050C11"/>
+    <stop offset="100%" stop-color="#0a1410"/>
+  </linearGradient>
+  <rect width="1920" height="384" fill="url(#bggrad)"/>
+  <!-- Teal glow top-center -->
+  <radialGradient id="glowC" cx="50%" cy="0%" r="50%">
+    <stop offset="0%" stop-color="#5DF2CF" stop-opacity="0.08"/>
+    <stop offset="100%" stop-color="#050C11" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="1920" height="384" fill="url(#glowC)"/>
+  <!-- Decorative dots line -->
+  <path d="M0 280 L240 180 L480 220 L720 140 L960 200 L1200 120 L1440 180 L1680 100 L1920 160"
+        fill="none" stroke="#6EF8EA" stroke-width="1.5" stroke-linecap="round" opacity="0.12"/>
+  <circle cx="240" cy="180" r="4" fill="#5DF2CF" opacity="0.18"/>
+  <circle cx="480" cy="220" r="4" fill="#5DF2CF" opacity="0.18"/>
+  <circle cx="720" cy="140" r="4" fill="#5DF2CF" opacity="0.18"/>
+  <circle cx="960" cy="200" r="4" fill="#5DF2CF" opacity="0.18"/>
+  <circle cx="1200" cy="120" r="4" fill="#5DF2CF" opacity="0.18"/>
+  <circle cx="1440" cy="180" r="4" fill="#5DF2CF" opacity="0.18"/>
+  <!-- Center content block (safe zone for Reddit) -->
+  <!-- Logo icon -->
+  <g transform="translate(748, 110) scale(1.35)">
+    <path d="M27 59l16-9 16 8 18-9 17 10" fill="none" stroke="#6EF8EA" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="27" cy="59" r="5.8" fill="#5DF2CF"/>
+    <circle cx="43" cy="50" r="5.8" fill="#5DF2CF"/>
+    <circle cx="77" cy="49" r="5.8" fill="#5DF2CF"/>
+    <circle cx="94" cy="59" r="5.8" fill="#5DF2CF"/>
+    <path d="M60 28c-18.5 0-32.5 13.8-32.5 31.8C27.5 78 41.6 92 60 92c8.8 0 16.5-3.1 22.3-8.4" fill="none" stroke="#EFFFF9" stroke-width="7.5" stroke-linecap="round"/>
+    <path d="M78.5 80.5 96 98" fill="none" stroke="#8DB5FF" stroke-width="7.5" stroke-linecap="round"/>
+  </g>
+  <!-- Brand name -->
+  <text x="920" y="210" text-anchor="middle" font-family="'Space Grotesk','Inter',ui-sans-serif,sans-serif" font-size="72" font-weight="700" letter-spacing="-0.03em" fill="#f6f4ec">quenlo</text>
+  <!-- Slogan -->
+  <text x="920" y="266" text-anchor="middle" font-family="'Space Grotesk','Inter',ui-sans-serif,sans-serif" font-size="24" font-weight="400" fill="#5DF2CF" letter-spacing="0.01em">Organizational Memory System for modern teams</text>
+  <!-- Domain -->
+  <text x="920" y="310" text-anchor="middle" font-family="'Space Grotesk','Inter',ui-sans-serif,sans-serif" font-size="20" font-weight="400" fill="#5b8cff" letter-spacing="0.02em">quenlo.ai</text>
+</svg>

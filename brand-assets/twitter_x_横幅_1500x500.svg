@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" width="1500" height="500" role="img" aria-label="Quenlo X/Twitter banner">
+  <!-- Dark navy background -->
+  <rect width="1500" height="500" fill="#050C11"/>
+  <!-- Subtle green gradient from left -->
+  <linearGradient id="bggrad" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#0f1c1a" stop-opacity="1"/>
+    <stop offset="60%" stop-color="#050C11" stop-opacity="1"/>
+  </linearGradient>
+  <rect width="1500" height="500" fill="url(#bggrad)"/>
+  <!-- Teal glow at top-left -->
+  <radialGradient id="glow1" cx="20%" cy="0%" r="40%">
+    <stop offset="0%" stop-color="#0f766e" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#050C11" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="1500" height="500" fill="url(#glow1)"/>
+  <!-- Blue glow at bottom-right -->
+  <radialGradient id="glow2" cx="85%" cy="100%" r="35%">
+    <stop offset="0%" stop-color="#3a63c9" stop-opacity="0.2"/>
+    <stop offset="100%" stop-color="#050C11" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="1500" height="500" fill="url(#glow2)"/>
+  <!-- Decorative connected-dots line (brand motif), spanning background -->
+  <path d="M100 300 L300 200 L500 240 L750 160 L950 220 L1150 140 L1400 200" fill="none" stroke="#6EF8EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.15"/>
+  <circle cx="100" cy="300" r="5" fill="#5DF2CF" opacity="0.2"/>
+  <circle cx="300" cy="200" r="5" fill="#5DF2CF" opacity="0.2"/>
+  <circle cx="500" cy="240" r="5" fill="#5DF2CF" opacity="0.2"/>
+  <circle cx="750" cy="160" r="5" fill="#5DF2CF" opacity="0.2"/>
+  <circle cx="950" cy="220" r="5" fill="#5DF2CF" opacity="0.2"/>
+  <circle cx="1150" cy="140" r="5" fill="#5DF2CF" opacity="0.2"/>
+  <circle cx="1400" cy="200" r="5" fill="#5DF2CF" opacity="0.2"/>
+
+  <!-- Logo icon (centered left block) — safe zone: ~300-1200px from left -->
+  <g transform="translate(340, 145) scale(1.75)">
+    <rect width="120" height="120" rx="22" fill="#0c1614"/>
+    <path d="M27 59l16-9 16 8 18-9 17 10" fill="none" stroke="#6EF8EA" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="27" cy="59" r="5.8" fill="#5DF2CF"/>
+    <circle cx="43" cy="50" r="5.8" fill="#5DF2CF"/>
+    <circle cx="77" cy="49" r="5.8" fill="#5DF2CF"/>
+    <circle cx="94" cy="59" r="5.8" fill="#5DF2CF"/>
+    <path d="M60 28c-18.5 0-32.5 13.8-32.5 31.8C27.5 78 41.6 92 60 92c8.8 0 16.5-3.1 22.3-8.4" fill="none" stroke="#EFFFF9" stroke-width="7.5" stroke-linecap="round"/>
+    <path d="M78.5 80.5 96 98" fill="none" stroke="#8DB5FF" stroke-width="7.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Brand name -->
+  <text x="570" y="238" font-family="'Space Grotesk','Inter',ui-sans-serif,sans-serif" font-size="88" font-weight="700" letter-spacing="-0.03em" fill="#f6f4ec">quenlo</text>
+  <!-- Slogan -->
+  <text x="572" y="300" font-family="'Space Grotesk','Inter',ui-sans-serif,sans-serif" font-size="28" font-weight="400" letter-spacing="0.01em" fill="#5DF2CF">Organizational Memory System for modern teams</text>
+  <!-- Thin teal divider line -->
+  <line x1="570" y1="320" x2="1150" y2="320" stroke="#5DF2CF" stroke-width="1.5" opacity="0.4"/>
+  <!-- Domain -->
+  <text x="572" y="358" font-family="'Space Grotesk','Inter',ui-sans-serif,sans-serif" font-size="22" font-weight="400" fill="#5b8cff" letter-spacing="0.02em">quenlo.ai</text>
+</svg>

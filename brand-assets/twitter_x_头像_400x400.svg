@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="Quenlo X/Twitter avatar">
+  <!-- Background: dark navy, full bleed (platform crops to circle) -->
+  <rect width="400" height="400" fill="#050C11"/>
+  <!-- Subtle radial glow -->
+  <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#0f766e" stop-opacity="0.3"/>
+    <stop offset="100%" stop-color="#050C11" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="400" height="400" fill="url(#glow)"/>
+  <!-- Icon scaled to center -->
+  <g transform="translate(100, 100) scale(1.67)">
+    <path d="M27 59l16-9 16 8 18-9 17 10" fill="none" stroke="#6EF8EA" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="27" cy="59" r="5.8" fill="#5DF2CF"/>
+    <circle cx="43" cy="50" r="5.8" fill="#5DF2CF"/>
+    <circle cx="77" cy="49" r="5.8" fill="#5DF2CF"/>
+    <circle cx="94" cy="59" r="5.8" fill="#5DF2CF"/>
+    <path d="M60 28c-18.5 0-32.5 13.8-32.5 31.8C27.5 78 41.6 92 60 92c8.8 0 16.5-3.1 22.3-8.4" fill="none" stroke="#EFFFF9" stroke-width="7.5" stroke-linecap="round"/>
+    <path d="M78.5 80.5 96 98" fill="none" stroke="#8DB5FF" stroke-width="7.5" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -10,11 +10,11 @@ const cols = [
     ],
   },
   {
-    title: 'Company',
+    title: 'Get in touch',
     items: [
       { label: 'Infinite-State', href: 'https://infist.ai' },
       { label: 'Book a demo', href: '/#book-demo' },
-      { label: 'Contact', href: '/#book-demo' },
+      { label: 'Contact', href: 'mailto:Infistteam@infist.ai' },
     ],
   },
 ]

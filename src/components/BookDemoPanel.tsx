@@ -72,7 +72,6 @@ export default function BookDemoPanel() {
   return (
     <form className="demo-form-card" onSubmit={handleSubmit}>
       <div className="demo-form-head">
-        <span>FDE fit check</span>
         <strong>Book a Quenlo demo</strong>
       </div>
       <div className="demo-form-grid">
@@ -130,7 +129,7 @@ export default function BookDemoPanel() {
       <button className="btn btn-primary demo-submit" type="submit" disabled={submitting}>
         {submitting ? 'Sending...' : 'Book demo'}
       </button>
-      <p className="demo-form-note">Early FDE deployments work best when the team can test Quenlo on a real recurring conversation.</p>
+      <p className="demo-form-note">We&apos;ll get back to you within one business day — no prep needed.</p>
     </form>
   )
 }

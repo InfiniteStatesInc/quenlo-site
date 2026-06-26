@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react'
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import BookDemoPanel from '../components/BookDemoPanel'
+import MemoryExplorer from '../components/MemoryExplorer'
 import './Quenlo.css'
 
 /* ---------------- reveal-on-scroll ---------------- */
@@ -18,252 +19,93 @@ function Reveal({ children, delay = 0, className = '', y = 24 }: { children: Rea
   )
 }
 
-/* small inline waveform */
-function Wave({ bars = 22 }: { bars?: number }) {
-  return (
-    <div className="wave">
-      {Array.from({ length: bars }).map((_, i) => (
-        <span key={i} style={{ animationDelay: `${(i % 7) * 0.09}s`, height: `${20 + ((i * 37) % 60)}%` }} />
-      ))}
-    </div>
-  )
-}
-
-/* ---------------- stage visuals ---------------- */
-function CapturePanel() {
-  return (
-    <div className="sc-panel">
-      <div className="sc-bar"><span className="sc-dot" /> live transcript · founder sync</div>
-      <div className="capture-rows">
-        {[['Maya', 'Ship the pricing experiments before the demo?'], ['Theo', 'Only if legal clears retention first.'], ['Nora', 'Then one owner, one rollback path.']].map(([who, line], i) => (
-          <div className="capture-row" key={who}>
-            <span className="who" data-i={i}>{who[0]}</span>
-            <div><b>{who}</b><p>{line}</p></div>
-          </div>
-        ))}
-      </div>
-      <div className="capture-tags"><span>@maya resolved</span><span>“retention” recognized</span><span>00:12</span></div>
-    </div>
-  )
-}
-function CutPanel() {
-  return (
-    <div className="sc-panel">
-      <div className="sc-bar"><span className="sc-dot" /> auto-cut · key moments</div>
-      <div className="cut-track"><span className="cut-line" /><i className="cut-pin p1">decision</i><i className="cut-pin p2">risk</i><i className="cut-pin p3">owner</i></div>
-      <div className="cut-list">
-        {[['00:12', 'Decision', 'Ship after retention review.'], ['00:31', 'Owner', '@theo owns legal · @maya the note.'], ['00:44', 'Risk', 'Support load is the launch gate.']].map(([t, k, txt]) => (
-          <article key={t}><span>{t}</span><b className={`tag-${k.toLowerCase()}`}>{k}</b><p>{txt}</p></article>
-        ))}
-      </div>
-    </div>
-  )
-}
-function RoutePanel() {
-  return (
-    <div className="sc-panel route-panel">
-      <div className="route-head"><img src="/quenlo-logo-on-light.svg" alt="" /><div><b>Quenlo</b><span>APP · 4:12 PM</span></div></div>
-      <h4>Founder sync — decision record</h4>
-      <p className="route-summary">Partner demo ships after legal clears the retention line. Support load is the launch gate.</p>
-      <ul>
-        <li><b>@theo</b> Review retention language by Friday.</li>
-        <li><b>@maya</b> Draft customer note after sign-off.</li>
-        <li><b>@nora</b> Confirm rollback path in thread.</li>
-      </ul>
-    </div>
-  )
-}
-function RememberPanel() {
-  return (
-    <div className="sc-panel">
-      <div className="remember-search">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="m21 21-4-4" /></svg>
-        <span>retention language partner demo</span>
-      </div>
-      <div className="remember-results">
-        <article><span className="r-kind kind-decision">Decision</span><b>Ship after retention review</b><p>Source: founder sync · 00:12 · @theo</p></article>
-        <article><span className="r-kind kind-follow">Follow-up</span><b>Customer note due Friday</b><p>Routed to @maya · partner opportunity</p></article>
-        <article><span className="r-kind kind-gap">Open gap</span><b>Rollback path to confirm</b><p>Asked @nora · updates on reply</p></article>
-      </div>
-    </div>
-  )
-}
-
-const STAGES = [
-  { key: 'capture', tab: 'Capture', heading: 'It captures the conversation.', line: 'Meetings, threads, and calls become structured memory — every person and moment attached.', Panel: CapturePanel },
-  { key: 'cut', tab: 'Cut', heading: 'It clips the decision.', line: 'The exact moment of a decision, a risk, or an owner change becomes evidence — not a loose highlight.', Panel: CutPanel },
-  { key: 'route', tab: 'Route', heading: 'It routes the follow-up.', line: 'Owners and open gaps land back in Slack, where the team already works.', Panel: RoutePanel },
-  { key: 'remember', tab: 'Remember', heading: 'It remembers the reason.', line: 'A searchable layer across projects, owners, and decisions — so the reason is still there later.', Panel: RememberPanel },
+/* ---------------- how it works ---------------- */
+const HOWITWORKS = [
+  { n: '01', t: 'It sits in your Google Meet', d: 'Quenlo quietly joins the call and listens — no bot to babysit, no notes to take. It even knows “Maya Rodriguez” on the call is “@mrod” in Slack.', img: '/mockups/01-google-meet.png', alt: 'Quenlo in a Google Meet call', id: 'Maya Rodriguez  =  @mrod', logo: '/logos/google-meet.svg', brand: 'Google Meet' },
+  { n: '02', t: 'It does the follow-up in Slack', d: 'The second the call ends, Quenlo drafts the follow-up, assigns the owner, and posts it in Slack — with the full context. Nobody had to ask.', img: '/mockups/03-slack-followthrough.png', alt: 'Quenlo posting the follow-up in Slack', logo: '/logos/slack.svg', brand: 'Slack' },
+  { n: '03', t: 'It opens the ticket and tracks it to done', d: 'Quenlo creates the ticket, nudges on the due date, and closes it out — so the work actually lands, not just the notes.', img: '/mockups/05-linear-ticket.png', alt: 'A ticket Quenlo created in Linear', logo: '/logos/linear.svg', brand: 'Linear' },
+  { n: '04', t: 'It asks instead of guessing', d: 'Didn’t catch a detail? Quenlo @asks the person to confirm — so what ends up in Slack is right, not hallucinated.', img: '/mockups/04-slack-asks.png', alt: 'Quenlo asking to confirm in Slack', logo: '/logos/slack.svg', brand: 'Slack' },
+  { n: '05', t: 'It remembers every meeting', d: '“What did we decide about pricing in Q1?” Ask Quenlo — it answers in seconds, from any call, anytime.', img: '/mockups/02-slack-recall.png', alt: 'Quenlo answering from memory in Slack', logo: '/logos/slack.svg', brand: 'Slack' },
 ]
 
-/* ---------------- scroll-pinned showcase ---------------- */
-function ScrollShowcase() {
+/* ---------------- forward-deployed (FDE) ---------------- */
+const FDE_STEPS = [
+  { n: '01', t: 'Embed', d: 'A forward-deployed engineer joins your team for a sprint — in your meetings, your Slack, your real work.', ic: (<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" /><path d="M2.5 20c0-3.3 3-5.6 6.5-5.6s6.5 2.3 6.5 5.6" /><circle cx="18" cy="9" r="2.4" /><path d="M16.2 14.6c2.7-.2 5.3 1.5 5.3 4.4" /></svg>) },
+  { n: '02', t: 'Learn your flow', d: 'How your team actually decides and talks — your rhythm, your vocabulary, your tools, where things fall through.', ic: (<svg viewBox="0 0 24 24"><path d="M2 13h3.4l2.2-7 3.6 14 2.6-9 1.8 4H22" /></svg>) },
+  { n: '03', t: 'Ship what fits', d: 'Quenlo is shaped to your workflow — custom skills built for how you work, not a fixed feature set.', ic: (<svg viewBox="0 0 24 24"><path d="M4 13l16-8-6 16-3-7-7-1z" /></svg>) },
+]
+function Fde() {
+  return (
+    <section className="fde-sec" id="fde">
+      <div className="wrap">
+        <Reveal className="sec-head-c">
+          <span className="kicker">// forward-deployed</span>
+          <h2>Not a tool you adapt to.<br />One that&apos;s built around you.</h2>
+          <p className="fde-sub">A forward-deployed engineer embeds with your team, learns exactly how you run Google Meet and Slack, and shapes Quenlo to it.</p>
+        </Reveal>
+        <div className="fde-steps">
+          {FDE_STEPS.map((s, i) => (
+            <Reveal key={s.n} className="fde-step" delay={i * 0.08} y={28}>
+              <div className="fde-top"><span className="fde-ic">{s.ic}</span><span className="fde-num">STEP {s.n}</span></div>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal className="fde-foot" delay={0.22}>
+          <p>So it does exactly what your team needs — <span className="hl">and nothing it doesn&apos;t.</span></p>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+/* ---------------- how it works — scroll story ---------------- */
+function ScrollStory() {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
-  const [idx, setIdx] = useState(0)
-  useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    setIdx(Math.max(0, Math.min(STAGES.length - 1, Math.floor(v * STAGES.length))))
-  })
-  const railH = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
-
+  const [active, setActive] = useState(0)
+  useEffect(() => {
+    const n = HOWITWORKS.length
+    return scrollYProgress.on('change', (v) => {
+      const i = Math.max(0, Math.min(n - 1, Math.floor(v * n + 0.0001)))
+      setActive(i)
+    })
+  }, [scrollYProgress])
+  const fillH = useTransform(scrollYProgress, [0, 1], ['4%', '100%'])
+  const cls = (i: number) => (i === active ? 'is-active' : i < active ? 'is-prev' : '')
   return (
     <section className="ss-wrap" id="product" ref={ref}>
       <div className="ss-sticky">
         <div className="wrap ss-inner">
           <div className="ss-left">
-            <span className="kicker">// how memory forms</span>
+            <span className="kicker">// how it works</span>
             <div className="ss-steps">
-              {STAGES.map((s, i) => (
-                <div key={s.key} className={`ss-step ${i === idx ? 'on' : ''} ${i < idx ? 'done' : ''}`}>
-                  <i>{String(i + 1).padStart(2, '0')}</i>{s.tab}
-                </div>
+              {HOWITWORKS.map((s, i) => (
+                <div key={s.n} className={`ss-step ${i === active ? 'on' : i < active ? 'done' : ''}`}><i>{s.n}</i>{s.t}</div>
               ))}
             </div>
             <div className="ss-copystack">
-              {STAGES.map((s, i) => (
-                <div key={s.key} className={`ss-copy ${i === idx ? 'is-active' : i < idx ? 'is-prev' : 'is-next'}`}>
-                  <h2>{s.heading}</h2>
-                  <p>{s.line}</p>
+              {HOWITWORKS.map((s, i) => (
+                <div key={s.n} className={`ss-copy ${cls(i)}`}>
+                  <h2>{s.t}</h2>
+                  <p>{s.d}</p>
+                  {s.id ? <span className="hiw-id">↔ {s.id}</span> : null}
                 </div>
               ))}
             </div>
           </div>
           <div className="ss-right">
-            <div className="ss-rail"><motion.i style={{ height: railH }} /></div>
-            {STAGES.map((s, i) => {
-              const Panel = s.Panel
-              return (
-                <div key={s.key} className={`ss-stagepanel ${i === idx ? 'is-active' : i < idx ? 'is-prev' : 'is-next'}`}>
-                  <Panel />
+            <div className="ss-rail"><motion.i style={{ height: fillH }} /></div>
+            {HOWITWORKS.map((s, i) => (
+              <div key={s.n} className={`ss-stagepanel ${cls(i)}`}>
+                <div className="sc-panel ss-shot">
+                  <div className="sc-bar"><span className="sc-dot" />{s.logo ? <img className="sc-blogo" src={s.logo} alt="" /> : null} {s.alt}</div>
+                  <img src={s.img} alt={s.alt} />
                 </div>
-              )
-            })}
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ---------------- memory-graph constellation (draws on scroll) ---------------- */
-const NODES = [
-  { x: 500, y: 70, label: 'Meeting', cls: 'n-meet' },
-  { x: 175, y: 150, label: 'Decision', cls: 'n-dec' },
-  { x: 825, y: 150, label: 'Owner', cls: 'n-own' },
-  { x: 120, y: 400, label: 'Customer signal', cls: 'n-cust' },
-  { x: 880, y: 400, label: 'Risk', cls: 'n-risk' },
-  { x: 500, y: 500, label: 'Follow-up', cls: 'n-follow' },
-]
-const MEMORIES = [
-  { kind: 'Decision', cls: 'n-dec', title: 'Ship the UI after the retention review', meta: 'Founder sync · 00:12 · @theo' },
-  { kind: 'Owner', cls: 'n-own', title: 'Pricing v2 tiers are locked', meta: 'Owned by @nora' },
-  { kind: 'Customer signal', cls: 'n-cust', title: 'Two churn risks flagged this week', meta: 'Surfaced from support' },
-  { kind: 'Risk', cls: 'n-risk', title: 'Legal review is the launch gate', meta: 'Blocks pricing v2' },
-  { kind: 'Follow-up', cls: 'n-follow', title: 'Customer note due Friday', meta: 'Routed to @maya' },
-]
-function MemoryGraph() {
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'center 0.4'] })
-  const draw = useTransform(scrollYProgress, [0, 1], [0, 1])
-  const coreScale = useTransform(scrollYProgress, [0, 0.5], [0.4, 1])
-  const [open, setOpen] = useState(false)
-  return (
-    <section className="graph" ref={ref}>
-      <div className="wrap graph-inner">
-        <Reveal className="graph-head">
-          <span className="kicker">// one memory, many threads</span>
-          <h2>Every decision stays connected<br />to where it came from.</h2>
-        </Reveal>
-        <div className={`graph-stage ${open ? 'is-board' : ''}`}>
-          <div className="graph-map">
-            <svg viewBox="0 0 1000 560" className="graph-svg" aria-hidden>
-              <defs>
-                <linearGradient id="gline" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="560">
-                  <stop offset="0" stopColor="#0f9488" /><stop offset="1" stopColor="#57e7c6" />
-                </linearGradient>
-              </defs>
-              {NODES.map((n, i) => (
-                <motion.path key={i} d={`M500 280 L${n.x} ${n.y}`} stroke="url(#gline)" strokeWidth="2.4" strokeLinecap="round" fill="none" style={{ pathLength: draw }} />
-              ))}
-              {NODES.map((n, i) => (
-                <motion.circle key={i} cx={n.x} cy={n.y} r="7" className="g-node"
-                  initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }}
-                  transition={{ delay: 0.2 + i * 0.08, type: 'spring', stiffness: 200 }} style={{ transformOrigin: `${n.x}px ${n.y}px` }} />
-              ))}
-            </svg>
-            {NODES.map((n, i) => (
-              <motion.span key={i} className={`g-label ${n.cls}`}
-                style={{ left: `${(n.x / 1000) * 100}%`, top: `${(n.y / 560) * 100}%` }}
-                initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
-                transition={{ delay: 0.35 + i * 0.08 }}>
-                {n.label}
-              </motion.span>
-            ))}
-          </div>
-          <motion.button type="button" className="graph-core" style={{ scale: open ? 1 : coreScale }} onClick={() => setOpen((o) => !o)}>
-            <img src="/quenlo-logo-on-light.svg" alt="Quenlo" />
-            <span className="core-hint">click to explore</span>
-          </motion.button>
-          <div className="graph-board">
-            <div className="gb-head">
-              <span className="kicker">// searchable org memory</span>
-              <button type="button" className="gb-back" onClick={() => setOpen(false)}>← back to map</button>
-            </div>
-            {MEMORIES.map((m) => (
-              <div className="gb-row" key={m.title}>
-                <span className={`gb-kind ${m.cls}`}>{m.kind}</span>
-                <div className="gb-body"><b>{m.title}</b><i>{m.meta}</i></div>
               </div>
             ))}
           </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ---------------- bento ---------------- */
-function Bento() {
-  return (
-    <section className="bento-sec" id="fde">
-      <div className="wrap">
-        <Reveal className="sec-head-c">
-          <span className="kicker">// forward-deployed</span>
-          <h2>Shaped to how your team actually decides.</h2>
-        </Reveal>
-        <div className="bento">
-          <Reveal className="b-tile b-lead" y={30}>
-            <span className="b-tag">Decision ledger</span>
-            <p>Every decision with its owner, status, and the moment it was made.</p>
-            <div className="b-ledger">
-              <div><b>Ship after review</b><i className="st st-wait">waiting on legal</i></div>
-              <div><b>Customer note</b><i className="st st-go">@maya · Fri</i></div>
-              <div><b>Rollback path</b><i className="st st-gap">open</i></div>
-            </div>
-          </Reveal>
-          <Reveal className="b-tile b-wave" delay={0.06} y={30}>
-            <span className="b-tag">Auto-cut moments</span>
-            <Wave bars={26} />
-            <div className="b-pins"><i>decision</i><i>risk</i><i>owner</i></div>
-          </Reveal>
-          <Reveal className="b-tile b-search" delay={0.1} y={30}>
-            <span className="b-tag">Searchable memory</span>
-            <div className="b-searchbar">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="m21 21-4-4" /></svg>
-              why did we ship?
-            </div>
-            <div className="b-chips"><span>by project</span><span>by owner</span><span>by customer</span></div>
-          </Reveal>
-          <Reveal className="b-tile b-route" delay={0.14} y={30}>
-            <span className="b-tag">Routed to Slack</span>
-            <div className="b-slack"><img src="/quenlo-logo-on-light.svg" alt="" /><div><b>@theo</b> review retention by Friday</div></div>
-            <div className="b-slack"><span className="b-av">M</span><div><b>@maya</b> drafting the customer note</div></div>
-          </Reveal>
-          <Reveal className="b-tile b-stack" delay={0.18} y={30}>
-            <span className="b-tag">Alias & jargon</span>
-            <div className="b-alias"><code>"Bobby"</code><i>→</i><code>@robert</code></div>
-            <div className="b-alias"><code>DPA</code><i>→</i><code>data-processing</code></div>
-          </Reveal>
         </div>
       </div>
     </section>
@@ -284,7 +126,6 @@ export default function Quenlo() {
   const filmY = useTransform(heroP, [0, 1], [0, 70])
   const slogY = useTransform(heroP, [0, 1], [0, -90])
   const slogOpacity = useTransform(heroP, [0, 0.7], [1, 0])
-  // chip parallax
   const c0 = useTransform(heroP, [0, 1], [0, -HERO_CHIPS[0].speed])
   const c1 = useTransform(heroP, [0, 1], [0, -HERO_CHIPS[1].speed])
   const c2 = useTransform(heroP, [0, 1], [0, -HERO_CHIPS[2].speed])
@@ -299,7 +140,6 @@ export default function Quenlo() {
           <span className="blob blob-a" /><span className="blob blob-b" /><span className="blob blob-c" />
           <span className="hero-dots" />
         </div>
-        {/* floating product "materials" */}
         {HERO_CHIPS.map((ch, i) => (
           <motion.div key={ch.c} className={`hero-chip ${ch.c}`} style={{ left: ch.x, top: ch.y, y: chipY[i] }} aria-hidden>
             {ch.t}
@@ -307,11 +147,14 @@ export default function Quenlo() {
         ))}
         <div className="wrap hero-inner">
           <motion.div className="hero-head" style={{ y: slogY, opacity: slogOpacity }}>
-            <Reveal y={14}><span className="eyebrow"><span className="dot" /> Organizational Memory System</span></Reveal>
+            <Reveal y={14}><span className="eyebrow"><span className="dot" /> Meeting follow-through agent</span></Reveal>
             <Reveal delay={0.06} y={18}>
-              <h1>Turn every conversation<br />into <span className="grad">organizational memory.</span></h1>
+              <h1>It listens in Google Meet.<br />It <span className="grad">follows through in Slack.</span></h1>
             </Reveal>
-            <Reveal delay={0.14} y={14}>
+            <Reveal delay={0.1} y={14}>
+              <p className="hero-sub">Turn every conversation into organizational memory.</p>
+            </Reveal>
+            <Reveal delay={0.16} y={14}>
               <div className="hero-cta">
                 <a className="btn btn-teal btn-lg" href="#book-demo">Book a demo</a>
                 <a className="btn btn-ghost btn-lg" href="#film"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>Watch the film</a>
@@ -325,53 +168,58 @@ export default function Quenlo() {
             </div>
           </motion.div>
         </div>
-        <div className="scroll-cue" aria-hidden><span /></div>
       </section>
 
-      {/* ============ MARQUEE ============ */}
-      <section className="marquee-sec" aria-label="integrations">
-        <div className="marquee">
-          <div className="marquee-row">
-            {[...Array(2)].map((_, k) => (
-              <div className="marquee-track" key={k}>
-                {['Slack', 'Google Meet', 'Zoom', 'Linear', 'Notion', 'HubSpot', 'Gmail', 'Teams',
-                  'Slack', 'Google Meet', 'Zoom', 'Linear', 'Notion', 'HubSpot', 'Gmail', 'Teams',
-                  'Slack', 'Google Meet', 'Zoom', 'Linear', 'Notion', 'HubSpot', 'Gmail', 'Teams'].map((n, idx) => (
-                  <span key={n + k + idx} aria-hidden={idx >= 8}><i className="m-dot" />{n}</span>
-                ))}
-              </div>
-            ))}
+      {/* ============ MEET + SLACK BANNER ============ */}
+      <section className="ms-band" aria-label="Built for Google Meet and Slack">
+        <div className="wrap ms-inner">
+          <div className="ms-pair">
+            <img src="/logos/google-meet.svg" alt="Google Meet" /><span>Google Meet</span>
+            <span className="ms-arrow"><svg viewBox="0 0 24 24" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+            <img src="/logos/slack.svg" alt="Slack" /><span>Slack</span>
           </div>
+          <p className="ms-tag">Built for teams that live in Google Meet + Slack.</p>
         </div>
       </section>
 
-      {/* ============ SCROLL SHOWCASE ============ */}
-      <ScrollShowcase />
+      {/* ============ PROBLEM ============ */}
+      <section className="prob">
+        <div className="wrap">
+          <Reveal>
+            <span className="kicker">// what quenlo fixes</span>
+            <h2>The meeting ends.<br />The follow-up doesn&apos;t.</h2>
+            <p>Decisions get made. Owners get named. Dates get set. Then the call drops — and it all evaporates. Someone&apos;s supposed to remember. Usually, no one does.</p>
+          </Reveal>
+        </div>
+      </section>
 
-      {/* ============ MEMORY GRAPH ============ */}
-      <MemoryGraph />
+      {/* ============ HOW IT WORKS (scroll story) ============ */}
+      <ScrollStory />
+
+      {/* ============ MEMORY EXPLORER ============ */}
+      <MemoryExplorer />
 
       {/* ============ STATEMENT ============ */}
       <section className="statement on-dark">
         <div className="statement-grid-bg" aria-hidden />
         <div className="wrap">
           <Reveal>
-            <h2>Notes capture <span className="dim">what was said.</span><br />Memory captures <span className="hl">why it was decided.</span></h2>
+            <h2>Notes tell you <span className="dim">what was said.</span><br />Quenlo makes sure <span className="hl">it gets done.</span></h2>
           </Reveal>
         </div>
       </section>
 
-      {/* ============ BENTO ============ */}
-      <Bento />
+      {/* ============ FDE ============ */}
+      <Fde />
 
       {/* ============ BOOK DEMO ============ */}
       <section className="book on-dark" id="book-demo">
         <div className="wrap book-grid">
           <Reveal>
             <span className="eyebrow"><span className="dot" /> Book a demo</span>
-            <h2>Bring one messy recurring conversation.</h2>
-            <p>A founder sync, a product review, a customer call. We map where decisions disappear — and what Quenlo should remember.</p>
-            <div className="book-points"><span>Slack</span><span>Meet / calls</span><span>Team vocabulary</span><span>Custom FDE skill</span></div>
+            <h2>See Quenlo run one of your meetings.</h2>
+            <p>Bring one real recurring call — a founder sync, a product review, a customer call. We&apos;ll show you the follow-up landing in Slack, automatically.</p>
+            <div className="book-points"><span>Google Meet</span><span>Slack</span><span>Your vocabulary</span><span>A real meeting</span></div>
           </Reveal>
           <Reveal delay={0.1}><BookDemoPanel /></Reveal>
         </div>
