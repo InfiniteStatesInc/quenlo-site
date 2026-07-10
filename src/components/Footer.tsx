@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { track } from '../lib/analytics'
 import { inPageNav } from '../lib/scroll'
 
 const cols = [
@@ -25,7 +26,7 @@ export default function Footer() {
     <footer className="q-footer">
       <div className="wrap q-footer-grid">
         <div className="q-footer-brand">
-          <Link to="/" className="q-brand q-brand-dark">
+          <Link to="/" className="q-brand q-brand-dark" onClick={() => track('footer_brand_click')}>
             <img src="/quenlo-logo-on-dark.svg" alt="" width={30} height={30} />
             <span>Quenlo</span>
           </Link>
@@ -35,7 +36,19 @@ export default function Footer() {
           <nav key={c.title} className="q-footer-col">
             <h4>{c.title}</h4>
             {c.items.map((it) => (
-              <a key={it.label} href={it.href} onClick={(e) => inPageNav(e, it.href)}>{it.label}</a>
+              <a
+                key={it.label}
+                href={it.href}
+                onClick={(e) => {
+                  track(it.href.startsWith('mailto:') ? 'email_click' : 'footer_link_click', {
+                    label: it.label,
+                    href: it.href,
+                  })
+                  inPageNav(e, it.href)
+                }}
+              >
+                {it.label}
+              </a>
             ))}
           </nav>
         ))}

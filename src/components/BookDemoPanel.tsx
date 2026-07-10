@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { track } from '../lib/analytics'
 
 type FormState = {
   name: string
@@ -35,6 +36,11 @@ export default function BookDemoPanel() {
     event.preventDefault()
     setSubmitting(true)
     setError('')
+    track('book_demo_submit_attempt', {
+      team_size: form.teamSize || undefined,
+      timeline: form.timeline || undefined,
+      has_meeting_flow: Boolean(form.meetingFlow.trim()),
+    })
 
     try {
       const response = await fetch('/api/book-demo', {
@@ -49,8 +55,15 @@ export default function BookDemoPanel() {
       if (!response.ok || !payload.ok) {
         throw new Error(payload.error || 'Could not submit the request.')
       }
+      track('book_demo_submit_success', {
+        team_size: form.teamSize || undefined,
+        timeline: form.timeline || undefined,
+      })
       setSent(true)
     } catch (submitError) {
+      track('book_demo_submit_error', {
+        message: submitError instanceof Error ? submitError.message : 'unknown',
+      })
       setError(submitError instanceof Error ? submitError.message : 'Could not submit the request.')
     } finally {
       setSubmitting(false)

@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import BookDemoPanel from '../components/BookDemoPanel'
 import MemoryExplorer from '../components/MemoryExplorer'
+import { track } from '../lib/analytics'
 import { inPageNav } from '../lib/scroll'
 import './Quenlo.css'
 
@@ -122,6 +123,7 @@ const HERO_CHIPS = [
 ]
 export default function Quenlo() {
   const heroRef = useRef<HTMLDivElement>(null)
+  const videoProgressRef = useRef({ p25: false, p50: false, p75: false })
   const { scrollYProgress: heroP } = useScroll({ target: heroRef, offset: ['start start', 'end start'] })
   const filmScale = useTransform(heroP, [0, 1], [0.92, 1.12])
   const filmY = useTransform(heroP, [0, 1], [0, 70])
@@ -132,6 +134,25 @@ export default function Quenlo() {
   const c2 = useTransform(heroP, [0, 1], [0, -HERO_CHIPS[2].speed])
   const c3 = useTransform(heroP, [0, 1], [0, -HERO_CHIPS[3].speed])
   const chipY = [c0, c1, c2, c3]
+
+  const handleVideoProgress = (event: React.SyntheticEvent<HTMLVideoElement>) => {
+    const video = event.currentTarget
+    if (!video.duration) return
+
+    const progress = video.currentTime / video.duration
+    const marks = [
+      ['p25', 0.25, 'video_25_percent'],
+      ['p50', 0.5, 'video_50_percent'],
+      ['p75', 0.75, 'video_75_percent'],
+    ] as const
+
+    marks.forEach(([key, threshold, eventName]) => {
+      if (!videoProgressRef.current[key] && progress >= threshold) {
+        videoProgressRef.current[key] = true
+        track(eventName, { video: 'quenlo-demo-v2', section: 'hero' })
+      }
+    })
+  }
 
   return (
     <div className="q-page">
@@ -157,15 +178,42 @@ export default function Quenlo() {
             </Reveal>
             <Reveal delay={0.16} y={14}>
               <div className="hero-cta">
-                <a className="btn btn-teal btn-lg" href="#book-demo" onClick={(e) => inPageNav(e, '#book-demo')}>Book a demo</a>
-                <a className="btn btn-ghost btn-lg" href="#film" onClick={(e) => inPageNav(e, '#film')}><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>Watch the film</a>
+                <a
+                  className="btn btn-teal btn-lg"
+                  href="#book-demo"
+                  onClick={(e) => {
+                    track('book_demo_click', { section: 'hero' })
+                    inPageNav(e, '#book-demo')
+                  }}
+                >
+                  Book a demo
+                </a>
+                <a
+                  className="btn btn-ghost btn-lg"
+                  href="#film"
+                  onClick={(e) => {
+                    track('watch_film_click', { section: 'hero' })
+                    inPageNav(e, '#film')
+                  }}
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>Watch the film
+                </a>
               </div>
             </Reveal>
           </motion.div>
           <motion.div className="hero-film" id="film" style={{ scale: filmScale, y: filmY }}>
             <div className="film-frame">
               <div className="film-bar"><span /><span /><span /><em>quenlo — founder sync · replay</em></div>
-              <video controls playsInline preload="metadata" poster="/quenlo-cover-v2.png" src="/quenlo-demo-v2.mp4" />
+              <video
+                controls
+                playsInline
+                preload="metadata"
+                poster="/quenlo-cover-v2.png"
+                src="/quenlo-demo-v2.mp4"
+                onPlay={() => track('video_play', { video: 'quenlo-demo-v2', section: 'hero' })}
+                onTimeUpdate={handleVideoProgress}
+                onEnded={() => track('video_complete', { video: 'quenlo-demo-v2', section: 'hero' })}
+              />
             </div>
           </motion.div>
         </div>

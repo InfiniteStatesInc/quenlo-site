@@ -4,6 +4,7 @@ import Nav from './components/Nav'
 import Footer from './components/Footer'
 import Quenlo from './pages/Quenlo'
 import BookDemo from './pages/BookDemo'
+import { track } from './lib/analytics'
 
 function ScrollManager() {
   const { pathname, hash } = useLocation()
@@ -20,10 +21,19 @@ function ScrollManager() {
   return null
 }
 
+function PageViewTracker() {
+  const { pathname, hash } = useLocation()
+  useEffect(() => {
+    track('page_view', { page: pathname, hash: hash || undefined })
+  }, [pathname, hash])
+  return null
+}
+
 export default function App() {
   return (
     <>
       <ScrollManager />
+      <PageViewTracker />
       <Nav />
       <main>
         <Routes>

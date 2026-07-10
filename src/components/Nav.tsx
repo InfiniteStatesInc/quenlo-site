@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { track } from '../lib/analytics'
 import { inPageNav } from '../lib/scroll'
 
 const links = [
@@ -20,16 +21,34 @@ export default function Nav() {
   return (
     <nav className={`q-nav ${scrolled ? 'is-scrolled' : ''}`}>
       <div className="wrap q-nav-inner">
-        <Link to="/" className="q-brand">
+        <Link to="/" className="q-brand" onClick={() => track('nav_brand_click')}>
           <img src="/quenlo-logo-on-light.svg" alt="" width={30} height={30} />
           <span>Quenlo</span>
         </Link>
         <div className="q-nav-links">
           {links.map(({ href, label }) => (
-            <a key={href} href={href} onClick={(e) => inPageNav(e, href)}>{label}</a>
+            <a
+              key={href}
+              href={href}
+              onClick={(e) => {
+                track('nav_link_click', { label, href })
+                inPageNav(e, href)
+              }}
+            >
+              {label}
+            </a>
           ))}
         </div>
-        <a href="/#book-demo" className="btn btn-teal q-nav-cta" onClick={(e) => inPageNav(e, '/#book-demo')}>Book a demo</a>
+        <a
+          href="/#book-demo"
+          className="btn btn-teal q-nav-cta"
+          onClick={(e) => {
+            track('book_demo_click', { section: 'nav' })
+            inPageNav(e, '/#book-demo')
+          }}
+        >
+          Book a demo
+        </a>
       </div>
     </nav>
   )
