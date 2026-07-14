@@ -171,7 +171,7 @@ export default function Quenlo() {
           <motion.div className="hero-head" style={{ y: slogY, opacity: slogOpacity }}>
             <Reveal y={14}><span className="eyebrow"><span className="dot" /> Meeting follow-through agent</span></Reveal>
             <Reveal delay={0.06} y={18}>
-              <h1>It listens in Google Meet.<br />It <span className="grad">follows through in Slack.</span></h1>
+              <h1>It listens in Google Meet.<br /> It <span className="grad">follows through in Slack.</span></h1>
             </Reveal>
             <Reveal delay={0.1} y={14}>
               <p className="hero-sub">Turn every conversation into organizational memory.</p>

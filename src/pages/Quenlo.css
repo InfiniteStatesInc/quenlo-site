@@ -219,7 +219,25 @@ section { position: relative; }
   .fde-steps { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
-  .hero { min-height: auto; padding: 84px 0 30px; } .hero-film { margin-top: 36px; }
+  .hero { min-height: auto; padding: 68px 0 34px; }
+  .hero-inner { width: 100%; padding: 0 16px; }
+  .hero-head { width: 100%; min-width: 0; }
+  .hero-head h1 { max-width: 100%; margin-top: 18px; font-size: clamp(38px, 11vw, 48px); line-height: .98; letter-spacing: -0.045em; text-wrap: balance; }
+  .hero-head h1 br { display: none; }
+  .hero-sub { max-width: 330px; margin-top: 18px; font-size: 16px; line-height: 1.5; }
+  .hero-cta { width: 100%; margin-top: 28px; gap: 10px; }
+  .hero-cta .btn { flex: 1 1 0; min-width: 0; padding-inline: 14px; font-size: 15px; }
+  .hero-film { width: 100%; margin-top: 36px; }
+  .film-frame { border-radius: 16px; }
+  .film-bar { padding: 10px 12px; }
+  .film-bar em { margin-left: 4px; max-width: calc(100% - 58px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
+  .film-frame video { aspect-ratio: 16 / 10; }
+  .eyebrow { justify-content: center; font-size: 10.5px; }
+  .ms-band { padding: 24px 0; }
+  .ms-pair { gap: 9px; }
+  .ms-pair img { height: 25px; }
+  .ms-pair span { font-size: 15px; }
+  .ms-tag { max-width: 290px; text-align: center; line-height: 1.5; }
   .statement, .graph, .fde-sec, .book { padding: 70px 0; }
   .demo-form-grid { grid-template-columns: 1fr; }
   .ss-sticky { height: 100svh; } .ss-right { height: 380px; }

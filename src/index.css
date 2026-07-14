@@ -132,3 +132,16 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.0
 .q-footer-col a:hover { color: var(--mint); }
 .q-footer-base { display: flex; align-items: center; justify-content: space-between; gap: 16px;
   flex-wrap: wrap; padding-top: 22px; font-size: 12.5px; color: #6f857f; }
+
+@media (max-width: 640px) {
+  .wrap { width: calc(100% - 32px); }
+  .q-nav { background: rgba(247, 245, 238, 0.92); backdrop-filter: saturate(140%) blur(14px); }
+  .q-nav-inner { min-height: 62px; gap: 10px; }
+  .q-brand { font-size: 18px; flex: none; }
+  .q-brand img { width: 27px; height: 27px; }
+  .q-nav-links { display: none; }
+  .q-nav-cta { height: 40px; padding: 0 14px; }
+  .q-footer { padding-top: 48px; }
+  .q-footer-grid { grid-template-columns: 1fr 1fr; gap: 32px 20px; }
+  .q-footer-brand { grid-column: 1 / -1; }
+}
